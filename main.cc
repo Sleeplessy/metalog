@@ -6,7 +6,7 @@
 
 #include <iostream>
 #include <vector>
-#include "metalog.hpp"
+#include "metalog/metalog.hpp"
 
 class foo {};
 class da : public foo {};
