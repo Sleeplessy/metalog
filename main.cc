@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <vector>
+#include <list>
 #include "metalog/metalog.hpp"
 
 class foo {};
@@ -27,5 +28,12 @@ int main() {
   metalog::content<std::string> a("test");
   std::wcout << a << std::endl;
   std::cout << a << std::endl;
+  metalog::content<std::vector<int>> v({1,2,3});
+  metalog::content<std::list<long>> l({1,3,4,5});
+  v.bracket_value = v.square;
+  l.bracket_value = l.pointy;
+
+  std::cout << v;
+  std::cout << l;
   return 0;
 }

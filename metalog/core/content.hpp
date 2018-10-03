@@ -7,11 +7,12 @@
 #include <metalog/core/printable.hpp>
 #include <metalog/core/iostream.hpp>
 #include <ostream>
+#include "iterable.hpp"
 namespace metalog {
 
 template<typename CONTENT_BODY>
 struct meta_content {
-  static_assert(is_printable<CONTENT_BODY>::value, "content body must be a printable type");
+  //static_assert(is_printable<CONTENT_BODY>::value, "content body must be a printable type");
   virtual void print() {}
 
   template <typename CHAR_T>
@@ -23,7 +24,7 @@ struct meta_content {
   std::string_view type_name = typeid(CONTENT_BODY).name();
 };
 
-template<typename CONTENT_BODY, typename CHAR_T = char>
+template<typename CONTENT_BODY, typename CHAR_T = char , typename = void>
 struct content : meta_content<CONTENT_BODY> {
   void print(CONTENT_BODY body, std::basic_ostream<CHAR_T> &output_stream) {
     output_stream << body;
