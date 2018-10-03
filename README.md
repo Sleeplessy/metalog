@@ -28,4 +28,5 @@ i printable:true
 3zig printable:false
 test
 test
+[1, 2, 3]<1, 3, 4, 5>
 ```
