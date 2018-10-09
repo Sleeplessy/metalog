@@ -19,10 +19,10 @@ struct is_iterable<T,
 };
 
 // Enables the arithmetic type like int, long, double, etc.
-template<typename ELEM_T, template<typename = ELEM_T> typename CONTENT_TYPE>
-struct is_printable<CONTENT_TYPE<ELEM_T>,
+template<typename ELEM_T, template<typename = ELEM_T, typename = std::allocator<ELEM_T>> typename CONTENT_TYPE>
+struct is_printable<CONTENT_TYPE<ELEM_T,std::allocator<ELEM_T>>,
                     std::void_t<typename std::enable_if<is_iterable<typename CONTENT_TYPE<ELEM_T>::value>::type,
-                                                        typename std::enable_if<is_printable<ELEM_T>::value>::type>>>
+                                                        typename std::enable_if<is_printable<content<ELEM_T>>::value>::type>>>
     : std::true_type {
   using content_type = CONTENT_TYPE<ELEM_T>;
   std::string_view type_name = typeid(CONTENT_TYPE<ELEM_T>).name();
@@ -45,17 +45,34 @@ struct content<CONTAINER_T,
     brace, // {}
     pointy, // <>
   };
+
   void print(std::basic_ostream<CHAR_T> &output_stream, content_type &body) {
     output_stream << get_bracket().first.data();
-    std::copy(std::begin(body),
-              std::end(body),
-              std::experimental::make_ostream_joiner(output_stream, ", "));
+    if constexpr ( std::is_same_v<CHAR_T,char>)
+    {
+      std::copy(std::begin(body),
+                std::end(body),
+                std::experimental::make_ostream_joiner(output_stream, ", "));
+    }
+    else
+    {
+      std::copy(std::begin(body),
+                std::end(body),
+                std::experimental::make_ostream_joiner(output_stream, L", "));
+    }
+
     output_stream << get_bracket().second.data();
   }
 
   void print(std::basic_ostream<CHAR_T> &output_stream) {
     print(output_stream, body);
   }
+
+  void print()
+  {
+    print(log_stream, body);
+  }
+
 
   auto wrap_type_name() {
     return typeid(CONTAINER_T).name();

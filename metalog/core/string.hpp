@@ -26,7 +26,7 @@ struct is_printable<std::basic_string<CHAR_T>> : std::true_type {
 };
 
 template<typename CHAR_T>
-struct content<std::basic_string<CHAR_T>,CHAR_T> : meta_content<std::basic_string<CHAR_T>> {
+struct content<std::basic_string<CHAR_T>,CHAR_T> : metalog::meta_content<std::basic_string<CHAR_T>> {
   content(std::basic_string<CHAR_T> content_body, std::basic_ostream<CHAR_T> &output_stream = wrap_cout<CHAR_T>())
       : body(content_body), log_stream{output_stream} {}
       template <typename OS_CHAR_T>
