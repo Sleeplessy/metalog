@@ -7,7 +7,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 include_directories(include)
 
-add_executable(metalog example/metalog.cc)
+add_executable(metalog example/ex1.cc)
 
 install(DIRECTORY include/ DESTINATION include)
 install(DIRECTORY example/ DESTINATION share/metalog/examples)
